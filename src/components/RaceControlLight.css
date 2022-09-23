@@ -1,0 +1,30 @@
+.light-chassis {
+    border: 2px solid #333;
+    border-radius: 20px;
+    height: 300px;
+    width: 150px;
+    padding: 8px;
+    background-color: #666;
+}
+
+.light-frame {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.light {
+    border: 2px solid #333;
+    background-color: #333;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+
+.light.lit {
+    background-color: rgb(222, 49, 49);
+    border-color: rgb(222, 49, 49);;
+}
