@@ -4,6 +4,7 @@ import { RaceControlLight } from './RaceControlLight';
 import useInterval from '../usehooks/useInterval';
 import useTimeout from '../usehooks/useTimeout';
 import useEventListener from '../usehooks/useEventListener';
+import useClickAnywhere from '../usehooks/useClickAnywhere';
 import { randomBetween } from '../utils/math';
 import "./RaceControl.css";
 
@@ -56,28 +57,35 @@ export const RaceControl = () => {
         setReactionTimerStart(new Date());
     }, step === State.Set ? randomBetween(1000, 5000) : null);
 
+    // Process space or click
+    const handleClick = () => {
+        // eslint-disable-next-line default-case
+        switch (step) {
+            case State.Standby:
+                setStep(State.Ready);
+                break;
+            case State.Ready:
+                handleFalseStart();
+                break;
+            case State.Set:
+                handleFalseStart();
+                break;
+            case State.Go:
+                handleValidStart();
+                break;
+        }
+    };
+
     // Listener for user input
     const onKeyPress = (e) => {
         if (e.code === "Space") {
-            // eslint-disable-next-line default-case
-            switch (step) {
-                case State.Standby:
-                    setStep(State.Ready);
-                    break;
-                case State.Ready:
-                    handleFalseStart();
-                    break;
-                case State.Set:
-                    handleFalseStart();
-                    break;
-                case State.Go:
-                    handleValidStart();
-                    break;
-            }
+            handleClick();
         }
     };
 
     useEventListener("keydown", onKeyPress, documentRef);
+
+    useClickAnywhere(() => handleClick());
 
     const handleFalseStart = () => {
         setStep(State.Standby);
